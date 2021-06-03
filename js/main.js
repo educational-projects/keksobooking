@@ -1,3 +1,9 @@
+/**
+ * @param {number} min минимальный диапазон
+ * @param {number} max максимальный диапазон
+ * @param {number} float число знаков после запятой
+ * @returns генератор рандомных значений
+ */
 function createRandomNumber(min, max, float = 0) {
   if (min < 0 || max < 0 || max < min) {
     throw new Error('Невалидное значение');
