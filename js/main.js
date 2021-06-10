@@ -1,17 +1,17 @@
-const AVATAR = {
+const Avatar = {
   path: '../img/avatars/user0',
   min: 1,
   max: 8,
 };
 
-const OFFER = {
+const Offer = {
 
-  tittle: ['Горячее предложение', 'Последние места'],
+  tittles: ['Горячее предложение', 'Последние места'],
   price: {
     min: 0,
     max: 20000,
   },
-  type: ['palace', 'flat', 'house', 'bungalow', 'hotel'],
+  types: ['palace', 'flat', 'house', 'bungalow', 'hotel'],
   rooms: {
     min: 1,
     max: 3,
@@ -20,16 +20,16 @@ const OFFER = {
     min: 1,
     max: 4,
   },
-  checkin: ['12:00', '13:00', '14:00'],
-  checkout: ['12:00', '13:00', '14:00'],
+  checkins: ['12:00', '13:00', '14:00'],
+  checkouts: ['12:00', '13:00', '14:00'],
   features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  description: ['Чисто, Солидно, Чисто'],
+  descriptions: ['Чисто, Солидно, Чисто'],
   photos: ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'],
 };
 
-const LOCATION = {
+const LocationMap = {
   lat: {
     min: 35.65000,
     max: 35.70000,
@@ -56,13 +56,11 @@ function createRandomNumber(min, max, float = 0) {
   return Number((Math.random() * (max - min) + min).toFixed(float));
 }
 
-createRandomNumber (0,2);
-
 //* Выбор случайного элемента массива
 /**
  * Выбор случайного элемента массива
  * @param {array} array
- * @returns
+ * @returns {array} массив со случайным элементом
  */
 function getArrayRandomElement (array) {
   if (array && array.length) {
@@ -72,27 +70,27 @@ function getArrayRandomElement (array) {
 
 //* Генерирование данных массива из 10 элементов
 function createOffer() {
-  const longitude = createRandomNumber(LOCATION.lng.min, LOCATION.lng.max, 5);
-  const latitude = createRandomNumber(LOCATION.lat.min, LOCATION.lat.max, 5);
+  const longitude = createRandomNumber(LocationMap.lng.min, LocationMap.lng.max, 5);
+  const latitude = createRandomNumber(LocationMap.lat.min, LocationMap.lat.max, 5);
 
 
   return {
     author: {
-      avatar: `../img/avatars/user0${createRandomNumber(AVATAR.min, AVATAR.max)}.png`,
+      avatar: `../img/avatars/user0${createRandomNumber(Avatar.min, Avatar.max)}.png`,
     },
 
     offer: {
-      tittle: getArrayRandomElement(OFFER.tittle),
+      tittle: getArrayRandomElement(Offer.tittles),
       address: `${latitude}, ${longitude}`,
-      price: createRandomNumber(OFFER.price.min, OFFER.price.max),
-      type: getArrayRandomElement (OFFER.type),
-      rooms: createRandomNumber(OFFER.rooms.min, OFFER.rooms.max),
-      guests: createRandomNumber(OFFER.guests.min, OFFER.guests.max),
-      checkin: getArrayRandomElement(OFFER.checkin),
-      checkout: getArrayRandomElement(OFFER.checkout),
-      features: OFFER.features.slice(0, createRandomNumber(1, OFFER.features.length)),
-      description: OFFER.description,
-      photos: OFFER.photos.slice(0, createRandomNumber(1, OFFER.photos.length)),
+      price: createRandomNumber(Offer.price.min, Offer.price.max),
+      type: getArrayRandomElement (Offer.types),
+      rooms: createRandomNumber(Offer.rooms.min, Offer.rooms.max),
+      guests: createRandomNumber(Offer.guests.min, Offer.guests.max),
+      checkin: getArrayRandomElement(Offer.checkins),
+      checkout: getArrayRandomElement(Offer.checkouts),
+      features: Offer.features.slice(0, createRandomNumber(1, Offer.features.length)),
+      description: Offer.descriptions,
+      photos: Offer.photos.slice(0, createRandomNumber(1, Offer.photos.length)),
     },
 
     location: {
@@ -103,5 +101,5 @@ function createOffer() {
 }
 
 //* Создание массима из 10 элементов
-const similarOffers = new Array(OFFER_COUNT).fill(null).map(() => createOffer());
+const similarOffers = new Array(OFFER_COUNT).fill(null).map(createOffer);
 similarOffers;
