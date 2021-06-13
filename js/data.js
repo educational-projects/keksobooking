@@ -41,6 +41,8 @@ const LocationMap = {
   },
 };
 
+const OFFER_COUNT = 10;
+
 //* Генерирование данных массива из 10 элементов
 function createOffer() {
   const longitude = createRandomNumber(LocationMap.lng.min, LocationMap.lng.max, 5);
@@ -72,4 +74,7 @@ function createOffer() {
   };
 }
 
-export {createOffer};
+const similarOffers = (quantity = OFFER_COUNT) => new Array(quantity).fill(null).map(createOffer);
+
+
+export {similarOffers};
