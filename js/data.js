@@ -7,7 +7,7 @@ const Avatar = {
 };
 
 const Offer = {
-  tittles: ['Горячее предложение', 'Последние места'],
+  titles: ['Горячее предложение', 'Последние места'],
   price: {
     min: 0,
     max: 20000,
@@ -56,7 +56,7 @@ function createOffer() {
     },
 
     offer: {
-      tittle: getArrayRandomElement(Offer.tittles),
+      title: getArrayRandomElement(Offer.titles),
       address: `${latitude}, ${longitude}`,
       price: createRandomNumber(Offer.price.min, Offer.price.max),
       type: getArrayRandomElement (Offer.types),

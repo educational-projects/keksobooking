@@ -14,16 +14,29 @@ const createOffer = similarOffers(1);
 
 createOffer.forEach((card) => {
   const cardElement = templateCard.cloneNode(true);
-  cardElement.querySelector('.popup__title').textContent = card.offer.tittle;
-  cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = `${card.offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = typesName[card.offer.type];
-  cardElement.querySelector('.popup__text--capacity').textContent = `${card.offer.rooms} комнаты для ${card.offer.guests} гостей`;
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}`;
+  //* поиск элементов карточки
+  const title = cardElement.querySelector('.popup__title');
+  const address = cardElement.querySelector('.popup__text--address');
+  const price = cardElement.querySelector('.popup__text--price');
+  const type = cardElement.querySelector('.popup__type');
+  const capacity = cardElement.querySelector('.popup__text--capacity');
+  const time = cardElement.querySelector('.popup__text--time');
+  const description = cardElement.querySelector('.popup__description');
+  const avatar = cardElement.querySelector('.popup__avatar');
 
+  //* добавляем значение или удаляем пустой элемент
+  title.textContent = card.offer.title || title.remove();
+  address.textContent = card.offer.address || address.remove();
+  price.textContent = `${card.offer.price} ₽/ночь` || price.remove();
+  type.textContent = typesName[card.offer.type] || type.remove();
+  capacity.textContent = `${card.offer.rooms} комнаты для ${card.offer.guests} гостей` || capacity.remove();
+  time.textContent = `Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}` || time.remove();
+  description.textContent = card.offer.description || description.remove();
+  avatar.src = card.author.avatar;
+
+  //* создание списка фич
   const featuresList = cardElement.querySelector('.popup__features');
   featuresList.textContent = '';
-
   const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < modifiers.length; i++) {
@@ -32,9 +45,9 @@ createOffer.forEach((card) => {
     fragment.appendChild(newElement);
   }
   featuresList.appendChild(fragment);
+  featuresList.children.length || featuresList.remove();
 
-  cardElement.querySelector('.popup__description').textContent = card.offer.description;
-
+  //* создание списка фотографий
   const photosList = cardElement.querySelector('.popup__photos');
   const photo = cardElement.querySelector('.popup__photo');
   const photos = card.offer.photos.map((img) => img);
@@ -46,8 +59,7 @@ createOffer.forEach((card) => {
     photoFragment.appendChild(photoElement);
   }
   photosList.appendChild(photoFragment);
-
-  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+  photosList.children.length || photosList.remove();
 
   map.appendChild(cardElement);
 });
