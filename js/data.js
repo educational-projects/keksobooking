@@ -7,7 +7,7 @@ const Avatar = {
 };
 
 const Offer = {
-  tittles: ['Горячее предложение', 'Последние места'],
+  titles: ['Горячее предложение', 'Последние места'],
   price: {
     min: 0,
     max: 20000,
@@ -24,7 +24,9 @@ const Offer = {
   checkins: ['12:00', '13:00', '14:00'],
   checkouts: ['12:00', '13:00', '14:00'],
   features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  descriptions: ['Чисто, Солидно, Чисто'],
+  descriptions: ['Дорогой, уютный номер для любителей роскоши',
+    'Приятная цена со всеми удобствами',
+    'Потрясающий вид с окон на море'],
   photos: ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'],
@@ -54,7 +56,7 @@ function createOffer() {
     },
 
     offer: {
-      tittle: getArrayRandomElement(Offer.tittles),
+      title: getArrayRandomElement(Offer.titles),
       address: `${latitude}, ${longitude}`,
       price: createRandomNumber(Offer.price.min, Offer.price.max),
       type: getArrayRandomElement (Offer.types),
@@ -63,7 +65,7 @@ function createOffer() {
       checkin: getArrayRandomElement(Offer.checkins),
       checkout: getArrayRandomElement(Offer.checkouts),
       features: Offer.features.slice(0, createRandomNumber(1, Offer.features.length)),
-      description: Offer.descriptions,
+      description: getArrayRandomElement(Offer.descriptions),
       photos: Offer.photos.slice(0, createRandomNumber(1, Offer.photos.length)),
     },
 
