@@ -10,8 +10,10 @@ const typesName = {
   hotel: 'Отель',
 };
 
+//* создание массива
 const createOffer = similarOffers(1);
 
+//*Генерация карточи объявления
 createOffer.forEach((card) => {
   const cardElement = templateCard.cloneNode(true);
   //* поиск элементов карточки
@@ -64,4 +66,4 @@ createOffer.forEach((card) => {
   map.appendChild(cardElement);
 });
 
-export {templateCard};
+export {createOffer};
