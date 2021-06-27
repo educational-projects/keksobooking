@@ -1,6 +1,7 @@
 import {similarOffers} from './data.js';
 import {OfferCard} from './cards.js';
-import { disableForm, enableForm } from './map.js';
+import {checkValidityForm } from './form.js';
+import {disableForm, enableForm} from './lock-form.js';
 //* Блокировка форм
 disableForm();
 
@@ -9,4 +10,7 @@ OfferCard(similarOffers(1));
 
 //* Разблокировка форм
 enableForm();
+
+//* Валидация форм
+checkValidityForm();
 
