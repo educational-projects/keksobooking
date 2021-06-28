@@ -1,5 +1,3 @@
-
-
 const map = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const typesName = {

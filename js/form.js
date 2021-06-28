@@ -67,7 +67,6 @@ const changePlaceholderPrice = () => {
   userPriceInput.placeholder = typeAndPrice[userType.value];
   userPriceInput.min = typeAndPrice[userType.value];
 };
-//* Зависимость минимальной цены от типа жилья
 
 //* Валидация комнат и людей
 const userRoomSelect = adForm.querySelector('#room_number');
@@ -105,4 +104,4 @@ const checkValidityForm = () => {
   userType.addEventListener('change', changePlaceholderPrice);
 };
 
-export {checkValidityForm};
+export {checkValidityForm, changePlaceholderPrice};
