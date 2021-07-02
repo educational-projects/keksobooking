@@ -1,3 +1,5 @@
+import { resetMap } from './map.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE_VALUE = 1000000;
@@ -93,6 +95,14 @@ const changeEventHandler = (evt) => {
   userTimeOutSelect.value = evt.target.value;
   userTimeInSelect.value = evt.target.value;
 };
+
+//* сброс на начальные значения по кнопке ресет
+const resetButton = document.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+});
 
 const checkValidityForm = () => {
   userTitleInput.addEventListener('input', checkValidityTitle);

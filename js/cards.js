@@ -59,6 +59,7 @@ const OfferCard = (cards) => {
     photosList.children.length || photosList.remove();
 
     map.appendChild(cardElement);
+    return cardElement;
   });
 };
 
