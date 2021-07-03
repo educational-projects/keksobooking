@@ -1,36 +1,30 @@
+import { changePlaceholderPrice } from './form.js';
+
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
-
+const mapFiltersElementsArray = Array.from(mapFilters.children);
+const adFormElementsArray = Array.from(adForm.children);
 //* Функция блокировки элементов формы
 const disableForm = () => {
   adForm.classList.add('ad-form--disabled');
   mapFilters.classList.add('map__filters--disabled');
   //* блокируем все дочерние элементы формы карты
-  const mapFiltersElements = mapFilters.children;
-  for (let i = 0; i < mapFiltersElements.length; i++) {
-    mapFiltersElements[i].setAttribute('disabled', '');
-  }
+  mapFiltersElementsArray.forEach((element) => element.setAttribute('disabled', ''));
+
   //* блокируем все дочерние элементы формы объявления
-  const adFormElements = adForm.children;
-  for (let i = 0; i < adFormElements.length; i++) {
-    adFormElements[i].setAttribute('disabled', '');
-  }
+  adFormElementsArray.forEach((element) => element.setAttribute('disabled', ''));
 };
 
 //* Функция разблокировки элементов формы
 const enableForm = () => {
   adForm.classList.remove('ad-form--disabled');
   mapFilters.classList.remove('map__filters--disabled');
+  //* Выставляем минимальную цену жилья
+  changePlaceholderPrice();
   //* cнимаем блокировку со всех дочерних элементов формы карты
-  const mapFiltersElements = mapFilters.children;
-  for (let i = 0; i < mapFiltersElements.length; i++) {
-    mapFiltersElements[i].removeAttribute('disabled');
-  }
+  mapFiltersElementsArray.forEach((element) => element.removeAttribute('disabled'));
   //* cнимаем блокировку со всех дочерних элементов формы объявления
-  const adFormElements = adForm.children;
-  for (let i = 0; i < adFormElements.length; i++) {
-    adFormElements[i].removeAttribute('disabled');
-  }
+  adFormElementsArray.forEach((element) => element.removeAttribute('disabled'));
 };
 
 export {disableForm, enableForm};

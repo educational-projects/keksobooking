@@ -79,4 +79,4 @@ const createOffer = () => {
 const similarOffers = (quantity = OFFER_COUNT) => new Array(quantity).fill(null).map(createOffer);
 
 
-export {similarOffers};
+export {similarOffers, createOffer};

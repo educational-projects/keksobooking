@@ -1,5 +1,3 @@
-
-
 const map = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const typesName = {
@@ -61,6 +59,7 @@ const OfferCard = (cards) => {
     photosList.children.length || photosList.remove();
 
     map.appendChild(cardElement);
+    return cardElement;
   });
 };
 
