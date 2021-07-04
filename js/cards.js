@@ -1,4 +1,3 @@
-const map = document.querySelector('#map-canvas');
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const typesName = {
   palace: 'Дворец',
@@ -58,7 +57,6 @@ const OfferCard = (cards) => {
     photosList.appendChild(photoFragment);
     photosList.children.length || photosList.remove();
 
-    map.appendChild(cardElement);
     return cardElement;
   });
 };

@@ -1,7 +1,9 @@
 import { resetMap } from './map.js';
 
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
+const TITLE_LENGTH = {
+  min: 30,
+  max: 100,
+};
 const MAX_PRICE_VALUE = 1000000;
 const adForm = document.querySelector('.ad-form');
 const roomAndCapacity = {
@@ -24,14 +26,14 @@ const userTitleInput = adForm.querySelector('#title');
 const checkValidityTitle = () => {
   const valueLength = userTitleInput.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
+  if (valueLength < TITLE_LENGTH.min) {
 
-    userTitleInput.setCustomValidity(`Еще минимум ${MIN_TITLE_LENGTH - valueLength} cимв.`);
+    userTitleInput.setCustomValidity(`Еще минимум ${TITLE_LENGTH.min - valueLength} cимв.`);
   }
 
 
-  else if (valueLength > MAX_TITLE_LENGTH) {
-    userTitleInput.setCustomValidity(`Превышен максимальный лимит длины на ${MAX_TITLE_LENGTH + valueLength} симв.`);
+  else if (valueLength > TITLE_LENGTH.max) {
+    userTitleInput.setCustomValidity(`Превышен максимальный лимит длины на ${TITLE_LENGTH.max + valueLength} симв.`);
   }
 
   else {

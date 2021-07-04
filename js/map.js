@@ -6,6 +6,19 @@ const DEFAULT_ADDRESS = {
   lat: 35.6895,
   lng: 139.692,
 };
+const MAP_SCALE = 13;
+const MAP_IMAGE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const MAP__COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const MAIN_PIN_SETTING = {
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+};
+const ADS_PIN_SETTING = {
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+};
 
 const addressInput = document.querySelector('#address');
 const map = L.map('map-canvas');
@@ -25,13 +38,13 @@ const initializationMap = () => {
     .setView({
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, 13);
+    }, MAP_SCALE);
 };
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  MAP_IMAGE,
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: MAP__COPYRIGHT,
   },
 ).addTo(map);
 
@@ -39,9 +52,9 @@ L.tileLayer(
 //* Настройка главного маркера
 const mainPinIcon = L.icon(
   {
-    iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconUrl: MAIN_PIN_SETTING.iconUrl,
+    iconSize: MAIN_PIN_SETTING.iconSize,
+    iconAnchor: MAIN_PIN_SETTING.iconAnchor,
   },
 );
 
@@ -98,11 +111,11 @@ const createPoint = (card) => {
   featuresList.textContent = '';
   const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < modifiers.length; i++) {
+  modifiers.forEach((element) => {
     const newElement = document.createElement('li');
-    newElement.classList.add('popup__feature', modifiers[i]);
+    newElement.classList.add('popup__feature', element);
     fragment.appendChild(newElement);
-  }
+  });
   featuresList.appendChild(fragment);
   featuresList.children.length || featuresList.remove();
   //* создание списка фотографий
@@ -111,11 +124,11 @@ const createPoint = (card) => {
   const photos = card.offer.photos.map((img) => img);
   const photoFragment = document.createDocumentFragment();
   photosList.textContent = '';
-  for (let i = 0; i < photos.length; i++) {
+  photos.forEach((element) => {
     const photoElement = photo.cloneNode(true);
-    photoElement.src = card.offer.photos[i];
+    photoElement.src = element;
     photoFragment.appendChild(photoElement);
-  }
+  });
   photosList.appendChild(photoFragment);
   photosList.children.length || photosList.remove();
 
@@ -127,9 +140,9 @@ similarOffers(10).forEach((element) => {
   //* Настройка меток объявлений
   const adsMarkerPin = L.icon(
     {
-      iconUrl: '../img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconUrl: ADS_PIN_SETTING.iconUrl,
+      iconSize: ADS_PIN_SETTING.iconSize,
+      iconAnchor: ADS_PIN_SETTING.iconAnchor,
     },
   );
   const adsMarker = L.marker(
@@ -157,7 +170,7 @@ const resetMap = () => {
     {
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, 13);
+    }, MAP_SCALE);
 };
 
 mainMarker.addTo(map);
