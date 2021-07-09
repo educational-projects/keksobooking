@@ -19,6 +19,7 @@ const ADS_PIN_SETTING = {
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
+const MAX_ADS = 10;
 
 const addressInput = document.querySelector('#address');
 const map = L.map('map-canvas');
@@ -109,6 +110,10 @@ const createPoint = (card) => {
   //* создание списка фич
   const featuresList = cardElement.querySelector('.popup__features');
   featuresList.textContent = '';
+  if (card.offer.features === undefined) {
+    card.offer['features'] = [];
+  }
+
   const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
   const fragment = document.createDocumentFragment();
   modifiers.forEach((element) => {
@@ -121,6 +126,10 @@ const createPoint = (card) => {
   //* создание списка фотографий
   const photosList = cardElement.querySelector('.popup__photos');
   const photo = cardElement.querySelector('.popup__photo');
+  if (card.offer.photos === undefined) {
+    card.offer['photos'] = [];
+  }
+
   const photos = card.offer.photos.map((img) => img);
   const photoFragment = document.createDocumentFragment();
   photosList.textContent = '';
@@ -135,29 +144,33 @@ const createPoint = (card) => {
   return cardElement;
 };
 
-similarOffers(10).forEach((element) => {
-  const {lat, lng} = element.location;
-  //* Настройка меток объявлений
-  const adsMarkerPin = L.icon(
-    {
-      iconUrl: ADS_PIN_SETTING.iconUrl,
-      iconSize: ADS_PIN_SETTING.iconSize,
-      iconAnchor: ADS_PIN_SETTING.iconAnchor,
-    },
-  );
-  const adsMarker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: adsMarkerPin,
-    },
-  );
-  adsMarker
-    .addTo(map)
-    .bindPopup(createPoint(element));
-});
+fetch('https://23.javascript.pages.academy/keksobooking/data')
+  .then((response) => response.json())
+  .then((adsData) => {
+    adsData.slice(0, MAX_ADS).forEach((element) => {
+      const {lat, lng} = element.location;
+      //* Настройка меток объявлений
+      const adsMarkerPin = L.icon(
+        {
+          iconUrl: ADS_PIN_SETTING.iconUrl,
+          iconSize: ADS_PIN_SETTING.iconSize,
+          iconAnchor: ADS_PIN_SETTING.iconAnchor,
+        },
+      );
+      const adsMarker = L.marker(
+        {
+          lat,
+          lng,
+        },
+        {
+          icon: adsMarkerPin,
+        },
+      );
+      adsMarker
+        .addTo(map)
+        .bindPopup(createPoint(element));
+    });
+  });
 
 const resetMap = () => {
   mainMarker.setLatLng(

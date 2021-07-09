@@ -6,3 +6,10 @@ disableForm();
 initializationMap();
 checkValidityForm();
 
+// шаманим с сервером
+// fetch('https://23.javascript.pages.academy/keksobooking/data')
+//   .then((response) => response.json())
+//   .then((ads) => {
+//     console.log(ads);
+//   });
+
