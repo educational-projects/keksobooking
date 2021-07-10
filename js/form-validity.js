@@ -116,4 +116,5 @@ const checkValidityForm = () => {
   userType.addEventListener('change', changePlaceholderPrice);
 };
 
+
 export {checkValidityForm, changePlaceholderPrice};

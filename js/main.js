@@ -1,15 +1,12 @@
-import {checkValidityForm } from './form.js';
+import { setUserFormSubmit } from './form-api.js';
+import { checkValidityForm } from './form-validity.js';
 import {disableForm} from './lock-form.js';
 import {initializationMap} from './map.js';
+import {getData} from './api.js';
+
 
 disableForm();
 initializationMap();
 checkValidityForm();
-
-// шаманим с сервером
-// fetch('https://23.javascript.pages.academy/keksobooking/data')
-//   .then((response) => response.json())
-//   .then((ads) => {
-//     console.log(ads);
-//   });
-
+setUserFormSubmit();
+getData();

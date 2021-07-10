@@ -1,14 +1,15 @@
-import { similarOffers } from './data.js';
-import { enableForm } from './lock-form.js';
+import {enableForm} from './lock-form.js';
 
 // global L:readonly
 const DEFAULT_ADDRESS = {
   lat: 35.6895,
   lng: 139.692,
 };
-const MAP_SCALE = 13;
-const MAP_IMAGE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const MAP__COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const MAP_SETTING = {
+  scale: 13,
+  image: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  copyright: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+};
 const MAIN_PIN_SETTING = {
   iconUrl: '../img/main-pin.svg',
   iconSize: [52, 52],
@@ -39,13 +40,13 @@ const initializationMap = () => {
     .setView({
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, MAP_SCALE);
+    }, MAP_SETTING.scale);
 };
 
 L.tileLayer(
-  MAP_IMAGE,
+  MAP_SETTING.image,
   {
-    attribution: MAP__COPYRIGHT,
+    attribution: MAP_SETTING.copyright,
   },
 ).addTo(map);
 
@@ -110,11 +111,9 @@ const createPoint = (card) => {
   //* создание списка фич
   const featuresList = cardElement.querySelector('.popup__features');
   featuresList.textContent = '';
-  if (card.offer.features === undefined) {
-    card.offer['features'] = [];
-  }
 
-  const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
+  const modifiers = card.offer.features || [];
+  modifiers.map((feature) => `popup__feature--${feature}`);
   const fragment = document.createDocumentFragment();
   modifiers.forEach((element) => {
     const newElement = document.createElement('li');
@@ -126,11 +125,9 @@ const createPoint = (card) => {
   //* создание списка фотографий
   const photosList = cardElement.querySelector('.popup__photos');
   const photo = cardElement.querySelector('.popup__photo');
-  if (card.offer.photos === undefined) {
-    card.offer['photos'] = [];
-  }
 
-  const photos = card.offer.photos.map((img) => img);
+  const photos = card.offer.photos || [];
+  photos.map((img) => img);
   const photoFragment = document.createDocumentFragment();
   photosList.textContent = '';
   photos.forEach((element) => {
@@ -144,33 +141,36 @@ const createPoint = (card) => {
   return cardElement;
 };
 
-fetch('https://23.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((adsData) => {
-    adsData.slice(0, MAX_ADS).forEach((element) => {
-      const {lat, lng} = element.location;
-      //* Настройка меток объявлений
-      const adsMarkerPin = L.icon(
-        {
-          iconUrl: ADS_PIN_SETTING.iconUrl,
-          iconSize: ADS_PIN_SETTING.iconSize,
-          iconAnchor: ADS_PIN_SETTING.iconAnchor,
-        },
-      );
-      const adsMarker = L.marker(
-        {
-          lat,
-          lng,
-        },
-        {
-          icon: adsMarkerPin,
-        },
-      );
-      adsMarker
-        .addTo(map)
-        .bindPopup(createPoint(element));
-    });
-  });
+const createMarkerAds = (ads) => {
+  const {lat, lng} = ads.location;
+  const adsMarkerPin = L.icon(
+    {
+      iconUrl: ADS_PIN_SETTING.iconUrl,
+      iconSize: ADS_PIN_SETTING.iconSize,
+      iconAnchor: ADS_PIN_SETTING.iconAnchor,
+    },
+  );
+  const adsMarker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: adsMarkerPin,
+    },
+  );
+  adsMarker
+    .addTo(map)
+    .bindPopup(createPoint(ads));
+};
+
+// fetch('https://23.javascript.pages.academy/keksobooking/data')
+//   .then((response) => response.json())
+//   .then((adsData) => {
+//     adsData.slice(0, MAX_ADS).forEach((element) => {
+//       createMarkerAds(element);
+//     });
+//   });
 
 const resetMap = () => {
   mainMarker.setLatLng(
@@ -183,8 +183,9 @@ const resetMap = () => {
     {
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, MAP_SCALE);
+    }, MAP_SETTING.scale);
 };
 
 mainMarker.addTo(map);
-export {initializationMap, resetMap};
+
+export {initializationMap, resetMap, createMarkerAds};

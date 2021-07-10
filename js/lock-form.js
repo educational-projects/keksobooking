@@ -1,4 +1,5 @@
-import { changePlaceholderPrice } from './form.js';
+import { changePlaceholderPrice } from './form-validity.js';
+
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
