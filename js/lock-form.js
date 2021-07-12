@@ -1,4 +1,5 @@
-import { changePlaceholderPrice } from './form.js';
+import { changePlaceholderPrice } from './form-validity.js';
+
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
@@ -18,13 +19,19 @@ const disableForm = () => {
 //* Функция разблокировки элементов формы
 const enableForm = () => {
   adForm.classList.remove('ad-form--disabled');
-  mapFilters.classList.remove('map__filters--disabled');
+
   //* Выставляем минимальную цену жилья
   changePlaceholderPrice();
   //* cнимаем блокировку со всех дочерних элементов формы карты
-  mapFiltersElementsArray.forEach((element) => element.removeAttribute('disabled'));
+
   //* cнимаем блокировку со всех дочерних элементов формы объявления
   adFormElementsArray.forEach((element) => element.removeAttribute('disabled'));
 };
 
-export {disableForm, enableForm};
+const enableFilters = () => {
+  mapFilters.classList.remove('map__filters--disabled');
+  mapFiltersElementsArray.forEach((element) => element.removeAttribute('disabled'));
+
+};
+
+export {disableForm, enableForm, enableFilters};

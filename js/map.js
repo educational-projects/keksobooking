@@ -1,10 +1,24 @@
-import { similarOffers } from './data.js';
-import { enableForm } from './lock-form.js';
+import {enableForm} from './lock-form.js';
 
 // global L:readonly
 const DEFAULT_ADDRESS = {
   lat: 35.6895,
   lng: 139.692,
+};
+const MAP_SETTING = {
+  scale: 13,
+  image: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  copyright: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+};
+const MAIN_PIN_SETTING = {
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+};
+const ADS_PIN_SETTING = {
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 };
 
 const addressInput = document.querySelector('#address');
@@ -25,13 +39,13 @@ const initializationMap = () => {
     .setView({
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, 13);
+    }, MAP_SETTING.scale);
 };
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  MAP_SETTING.image,
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: MAP_SETTING.copyright,
   },
 ).addTo(map);
 
@@ -39,9 +53,9 @@ L.tileLayer(
 //* Настройка главного маркера
 const mainPinIcon = L.icon(
   {
-    iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconUrl: MAIN_PIN_SETTING.iconUrl,
+    iconSize: MAIN_PIN_SETTING.iconSize,
+    iconAnchor: MAIN_PIN_SETTING.iconAnchor,
   },
 );
 
@@ -96,40 +110,42 @@ const createPoint = (card) => {
   //* создание списка фич
   const featuresList = cardElement.querySelector('.popup__features');
   featuresList.textContent = '';
-  const modifiers = card.offer.features.map((feature) => `popup__feature--${feature}`);
+
+  const modifiers = card.offer.features || [];
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < modifiers.length; i++) {
+  modifiers.forEach((feature) => {
     const newElement = document.createElement('li');
-    newElement.classList.add('popup__feature', modifiers[i]);
+    newElement.classList.add('popup__feature', `popup__feature--${feature}`);
     fragment.appendChild(newElement);
-  }
+  });
   featuresList.appendChild(fragment);
   featuresList.children.length || featuresList.remove();
   //* создание списка фотографий
   const photosList = cardElement.querySelector('.popup__photos');
   const photo = cardElement.querySelector('.popup__photo');
-  const photos = card.offer.photos.map((img) => img);
+
+  const photos = card.offer.photos || [];
+  photos.map((img) => img);
   const photoFragment = document.createDocumentFragment();
   photosList.textContent = '';
-  for (let i = 0; i < photos.length; i++) {
+  photos.forEach((element) => {
     const photoElement = photo.cloneNode(true);
-    photoElement.src = card.offer.photos[i];
+    photoElement.src = element;
     photoFragment.appendChild(photoElement);
-  }
+  });
   photosList.appendChild(photoFragment);
   photosList.children.length || photosList.remove();
 
   return cardElement;
 };
 
-similarOffers(10).forEach((element) => {
-  const {lat, lng} = element.location;
-  //* Настройка меток объявлений
+const createMarkerAds = (ads) => {
+  const {lat, lng} = ads.location;
   const adsMarkerPin = L.icon(
     {
-      iconUrl: '../img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconUrl: ADS_PIN_SETTING.iconUrl,
+      iconSize: ADS_PIN_SETTING.iconSize,
+      iconAnchor: ADS_PIN_SETTING.iconAnchor,
     },
   );
   const adsMarker = L.marker(
@@ -143,8 +159,8 @@ similarOffers(10).forEach((element) => {
   );
   adsMarker
     .addTo(map)
-    .bindPopup(createPoint(element));
-});
+    .bindPopup(createPoint(ads));
+};
 
 const resetMap = () => {
   mainMarker.setLatLng(
@@ -157,8 +173,9 @@ const resetMap = () => {
     {
       lat: DEFAULT_ADDRESS.lat,
       lng: DEFAULT_ADDRESS.lng,
-    }, 13);
+    }, MAP_SETTING.scale);
 };
 
 mainMarker.addTo(map);
-export {initializationMap, resetMap};
+
+export {initializationMap, resetMap, createMarkerAds};

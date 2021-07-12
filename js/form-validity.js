@@ -1,7 +1,9 @@
 import { resetMap } from './map.js';
 
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
+const TITLE_LENGTH = {
+  min: 30,
+  max: 100,
+};
 const MAX_PRICE_VALUE = 1000000;
 const adForm = document.querySelector('.ad-form');
 const roomAndCapacity = {
@@ -24,14 +26,14 @@ const userTitleInput = adForm.querySelector('#title');
 const checkValidityTitle = () => {
   const valueLength = userTitleInput.value.length;
 
-  if (valueLength < MIN_TITLE_LENGTH) {
+  if (valueLength < TITLE_LENGTH.min) {
 
-    userTitleInput.setCustomValidity(`Еще минимум ${MIN_TITLE_LENGTH - valueLength} cимв.`);
+    userTitleInput.setCustomValidity(`Еще минимум ${TITLE_LENGTH.min - valueLength} cимв.`);
   }
 
 
-  else if (valueLength > MAX_TITLE_LENGTH) {
-    userTitleInput.setCustomValidity(`Превышен максимальный лимит длины на ${MAX_TITLE_LENGTH + valueLength} симв.`);
+  else if (valueLength > TITLE_LENGTH.max) {
+    userTitleInput.setCustomValidity(`Превышен максимальный лимит длины на ${TITLE_LENGTH.max + valueLength} симв.`);
   }
 
   else {
@@ -74,16 +76,33 @@ const changePlaceholderPrice = () => {
 const userRoomSelect = adForm.querySelector('#room_number');
 const userCapacitySelect = adForm.querySelector('#capacity');
 
+// const checkValidityRooms = (evt) => {
+//   if (!roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value))) {
+//     userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+//     evt.preventDefault();
+//   } else {
+//     userCapacitySelect.setCustomValidity('');
+//   }
+
+//   userCapacitySelect.reportValidity();
+
+// };
+
+const checkCapacity = () => roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value));
+const showCapacityError = () => {
+  userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+  userCapacitySelect.reportValidity();
+};
+
 const checkValidityRooms = (evt) => {
-  if (!roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value))) {
-    userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+  if ( !checkCapacity() ) {
+    showCapacityError();
     evt.preventDefault();
   } else {
     userCapacitySelect.setCustomValidity('');
   }
 
   userCapacitySelect.reportValidity();
-
 };
 
 //* Время заеда и выезда
@@ -96,12 +115,15 @@ const changeEventHandler = (evt) => {
   userTimeInSelect.value = evt.target.value;
 };
 
-//* сброс на начальные значения по кнопке ресет
+const resetForm = () => {
+  adForm.reset();
+  resetMap();
+};
+
 const resetButton = document.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  adForm.reset();
-  resetMap();
+  resetForm();
 });
 
 const checkValidityForm = () => {
@@ -110,8 +132,8 @@ const checkValidityForm = () => {
   userRoomSelect.addEventListener('change', checkValidityRooms);
   userCapacitySelect.addEventListener('change', checkValidityRooms);
   userDataForm.addEventListener('change', changeEventHandler);
-  adForm.addEventListener('submit', checkValidityRooms, { once: true });
   userType.addEventListener('change', changePlaceholderPrice);
 };
 
-export {checkValidityForm, changePlaceholderPrice};
+
+export {checkValidityForm, changePlaceholderPrice, resetForm, checkCapacity, showCapacityError};

@@ -1,12 +1,11 @@
-import {checkValidityForm } from './form.js';
+import { checkValidityForm, resetForm } from './form-validity.js';
 import {disableForm} from './lock-form.js';
 import {initializationMap} from './map.js';
-//* Блокировка форм
+import {getData, setUserFormSubmit} from './api.js';
+
+
 disableForm();
-
-// Инициализация карты
 initializationMap();
-
-//* Валидация форм
 checkValidityForm();
-
+setUserFormSubmit(resetForm);
+getData();
