@@ -1,12 +1,11 @@
-import { setUserFormSubmit } from './form-api.js';
-import { checkValidityForm } from './form-validity.js';
+import { checkValidityForm, resetForm } from './form-validity.js';
 import {disableForm} from './lock-form.js';
 import {initializationMap} from './map.js';
-import {getData} from './api.js';
+import {getData, setUserFormSubmit} from './api.js';
 
 
 disableForm();
 initializationMap();
 checkValidityForm();
-setUserFormSubmit();
+setUserFormSubmit(resetForm);
 getData();

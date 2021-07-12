@@ -20,7 +20,6 @@ const ADS_PIN_SETTING = {
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
-const MAX_ADS = 10;
 
 const addressInput = document.querySelector('#address');
 const map = L.map('map-canvas');
@@ -113,11 +112,10 @@ const createPoint = (card) => {
   featuresList.textContent = '';
 
   const modifiers = card.offer.features || [];
-  modifiers.map((feature) => `popup__feature--${feature}`);
   const fragment = document.createDocumentFragment();
-  modifiers.forEach((element) => {
+  modifiers.forEach((feature) => {
     const newElement = document.createElement('li');
-    newElement.classList.add('popup__feature', element);
+    newElement.classList.add('popup__feature', `popup__feature--${feature}`);
     fragment.appendChild(newElement);
   });
   featuresList.appendChild(fragment);
@@ -163,14 +161,6 @@ const createMarkerAds = (ads) => {
     .addTo(map)
     .bindPopup(createPoint(ads));
 };
-
-// fetch('https://23.javascript.pages.academy/keksobooking/data')
-//   .then((response) => response.json())
-//   .then((adsData) => {
-//     adsData.slice(0, MAX_ADS).forEach((element) => {
-//       createMarkerAds(element);
-//     });
-//   });
 
 const resetMap = () => {
   mainMarker.setLatLng(

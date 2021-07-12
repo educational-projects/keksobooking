@@ -76,16 +76,33 @@ const changePlaceholderPrice = () => {
 const userRoomSelect = adForm.querySelector('#room_number');
 const userCapacitySelect = adForm.querySelector('#capacity');
 
+// const checkValidityRooms = (evt) => {
+//   if (!roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value))) {
+//     userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+//     evt.preventDefault();
+//   } else {
+//     userCapacitySelect.setCustomValidity('');
+//   }
+
+//   userCapacitySelect.reportValidity();
+
+// };
+
+const checkCapacity = () => roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value));
+const showCapacityError = () => {
+  userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+  userCapacitySelect.reportValidity();
+};
+
 const checkValidityRooms = (evt) => {
-  if (!roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value))) {
-    userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
+  if ( !checkCapacity() ) {
+    showCapacityError();
     evt.preventDefault();
   } else {
     userCapacitySelect.setCustomValidity('');
   }
 
   userCapacitySelect.reportValidity();
-
 };
 
 //* Время заеда и выезда
@@ -98,12 +115,15 @@ const changeEventHandler = (evt) => {
   userTimeInSelect.value = evt.target.value;
 };
 
-//* сброс на начальные значения по кнопке ресет
+const resetForm = () => {
+  adForm.reset();
+  resetMap();
+};
+
 const resetButton = document.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  adForm.reset();
-  resetMap();
+  resetForm();
 });
 
 const checkValidityForm = () => {
@@ -112,9 +132,8 @@ const checkValidityForm = () => {
   userRoomSelect.addEventListener('change', checkValidityRooms);
   userCapacitySelect.addEventListener('change', checkValidityRooms);
   userDataForm.addEventListener('change', changeEventHandler);
-  adForm.addEventListener('submit', checkValidityRooms, { once: true });
   userType.addEventListener('change', changePlaceholderPrice);
 };
 
 
-export {checkValidityForm, changePlaceholderPrice};
+export {checkValidityForm, changePlaceholderPrice, resetForm, checkCapacity, showCapacityError};
