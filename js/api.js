@@ -1,8 +1,8 @@
+import { setFilterListener } from './filters-ads.js';
 import { checkCapacity, showCapacityError } from './form-validity.js';
 import { enableFilters } from './lock-form.js';
-import { createMarkerAds } from './map.js';
+import { createMarkerGroup } from './map.js';
 
-const MAX_ADS = 10;
 const SERVER_URL = 'https://23.javascript.pages.academy/keksobooking';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -32,6 +32,7 @@ const openPopup = (messagePopup) => {
   addEventPopup(popup);
 };
 
+let defaultData = [];
 const getData = () => {
   fetch(
     `${SERVER_URL}/data`,
@@ -45,10 +46,9 @@ const getData = () => {
         return [];
       }})
     .then((adsData) => {
-
-      adsData.slice(0, MAX_ADS).forEach((ads) => {
-        createMarkerAds(ads);
-      });
+      defaultData = adsData.slice();
+      setFilterListener();
+      createMarkerGroup(defaultData);
     });
 };
 
@@ -88,4 +88,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {getData, sendData, setUserFormSubmit};
+export {getData, setUserFormSubmit, defaultData};

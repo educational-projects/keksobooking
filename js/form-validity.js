@@ -1,11 +1,11 @@
-import { resetMap } from './map.js';
+import { defaultData } from './api.js';
+import { createMarkerGroup, resetMap } from './map.js';
 
 const TITLE_LENGTH = {
   min: 30,
   max: 100,
 };
 const MAX_PRICE_VALUE = 1000000;
-const adForm = document.querySelector('.ad-form');
 const roomAndCapacity = {
   1: [1],
   2: [1,2],
@@ -19,6 +19,9 @@ const typeAndPrice = {
   bungalow: 0,
   hotel: 10000,
 };
+
+const adForm = document.querySelector('.ad-form');
+const filterForm = document.querySelector('.map__filters');
 
 //* Валидация формы заголовка объявления
 const userTitleInput = adForm.querySelector('#title');
@@ -76,18 +79,6 @@ const changePlaceholderPrice = () => {
 const userRoomSelect = adForm.querySelector('#room_number');
 const userCapacitySelect = adForm.querySelector('#capacity');
 
-// const checkValidityRooms = (evt) => {
-//   if (!roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value))) {
-//     userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
-//     evt.preventDefault();
-//   } else {
-//     userCapacitySelect.setCustomValidity('');
-//   }
-
-//   userCapacitySelect.reportValidity();
-
-// };
-
 const checkCapacity = () => roomAndCapacity[userRoomSelect.value].includes(Number(userCapacitySelect.value));
 const showCapacityError = () => {
   userCapacitySelect.setCustomValidity('Выберите правильное количество мест');
@@ -118,6 +109,9 @@ const changeEventHandler = (evt) => {
 const resetForm = () => {
   adForm.reset();
   resetMap();
+  changePlaceholderPrice();
+  filterForm.reset();
+  createMarkerGroup(defaultData);
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
