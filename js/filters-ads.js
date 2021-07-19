@@ -32,37 +32,32 @@ const housingFeatures = mapFilters.querySelectorAll('[type="checkbox"]');
 const getFilterHousing = (dataAds) => {
   if (housingFilter.value === 'any') {
     return dataAds;
-  } else {
-    const adsFilter = dataAds.filter((ads) => ads.offer.type === housingFilter.value);
-    return adsFilter;
   }
+  return dataAds.filter((ads) => ads.offer.type === housingFilter.value);
 };
 
 // фильтр цены
 const getFilterPrice = (dataAds) => {
   if (priceFilter.value === 'any') {
     return true;
-  } else {
-    return dataAds.offer.price >= price[priceFilter.value].min && dataAds.offer.price <= price[priceFilter.value].max;
   }
+  return dataAds.offer.price >= price[priceFilter.value].min && dataAds.offer.price <= price[priceFilter.value].max;
 };
 
 // фильтр комнат
 const getFilterRooms = (dataAds) => {
   if (roomsFilter.value === 'any') {
     return true;
-  } else {
-    return dataAds.offer.rooms === Number(roomsFilter.value);
   }
+  return dataAds.offer.rooms === Number(roomsFilter.value);
 };
 
 // фильтр гостей
 const getFilterGuests = (dataAds) => {
   if (guestsFilter.value === 'any') {
     return true;
-  } else {
-    return dataAds.offer.guests === Number(guestsFilter.value);
   }
+  return dataAds.offer.guests === Number(guestsFilter.value);
 };
 
 //фильтр фич

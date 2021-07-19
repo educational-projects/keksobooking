@@ -75,7 +75,6 @@ mainMarker.on('move', (evt) => {
   addressValue(evt.target.getLatLng());
 });
 
-///////////////////////////////////////////////*
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const typesName = {
   palace: 'Дворец',
