@@ -1,11 +1,12 @@
-import { checkValidityForm, resetForm } from './form-validity.js';
 import {disableForm} from './lock-form.js';
+import {checkValidityForm, resetForm, setUserFormSubmit } from './form-validity.js';
 import {initializationMap} from './map.js';
-import {getData, setUserFormSubmit} from './api.js';
-
+import {getData} from './api.js';
+import {getPreview} from './preview-img.js';
 
 disableForm();
-initializationMap();
-checkValidityForm();
-setUserFormSubmit(resetForm);
-getData();
+initializationMap()
+  .then(getPreview)
+  .then(getData)
+  .then(checkValidityForm)
+  .then(setUserFormSubmit(resetForm));

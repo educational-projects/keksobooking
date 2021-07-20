@@ -1,6 +1,7 @@
 import {enableForm} from './lock-form.js';
 
 // global L:readonly
+const MAX_ADS = 10;
 const DEFAULT_ADDRESS = {
   lat: 35.6895,
   lng: 139.692,
@@ -31,15 +32,14 @@ const addressValue = ({lat, lng}) => {
 };
 
 //* Настройка карты
-const initializationMap = () => {
+const initializationMap = async () => {
   map.on('load', () => {
     enableForm();
     addressValue(DEFAULT_ADDRESS);
   })
-    .setView({
-      lat: DEFAULT_ADDRESS.lat,
-      lng: DEFAULT_ADDRESS.lng,
-    }, MAP_SETTING.scale);
+    .setView(
+      DEFAULT_ADDRESS,
+      MAP_SETTING.scale);
 };
 
 L.tileLayer(
@@ -60,10 +60,7 @@ const mainPinIcon = L.icon(
 );
 
 const mainMarker = L.marker(
-  {
-    lat: DEFAULT_ADDRESS.lat,
-    lng: DEFAULT_ADDRESS.lng,
-  },
+  DEFAULT_ADDRESS,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -74,7 +71,6 @@ mainMarker.on('move', (evt) => {
   addressValue(evt.target.getLatLng());
 });
 
-///////////////////////////////////////////////*
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
 const typesName = {
   palace: 'Дворец',
@@ -139,6 +135,7 @@ const createPoint = (card) => {
   return cardElement;
 };
 
+const markerGroup = L.layerGroup().addTo(map);
 const createMarkerAds = (ads) => {
   const {lat, lng} = ads.location;
   const adsMarkerPin = L.icon(
@@ -158,8 +155,13 @@ const createMarkerAds = (ads) => {
     },
   );
   adsMarker
-    .addTo(map)
+    .addTo(markerGroup)
     .bindPopup(createPoint(ads));
+};
+
+const createMarkerGroup = (dataAds) => {
+  markerGroup.clearLayers();
+  dataAds.slice(0, MAX_ADS).forEach((ads) => {createMarkerAds(ads);});
 };
 
 const resetMap = () => {
@@ -178,4 +180,4 @@ const resetMap = () => {
 
 mainMarker.addTo(map);
 
-export {initializationMap, resetMap, createMarkerAds};
+export {initializationMap, resetMap, createMarkerAds, markerGroup, createMarkerGroup};
