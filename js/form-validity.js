@@ -106,12 +106,18 @@ const changeEventHandler = (evt) => {
   userTimeInSelect.value = evt.target.value;
 };
 
+//* Ресет формы
+const previewHousing = adForm.querySelector('.ad-form__photo');
+const previewAvatar = adForm.querySelector('.ad-form-header__preview img');
+
 const resetForm = () => {
   adForm.reset();
   resetMap();
   changePlaceholderPrice();
   filterForm.reset();
   createMarkerGroup(defaultData);
+  previewHousing.textContent = '';
+  previewAvatar.src = 'img/muffin-grey.svg';
 };
 
 const resetButton = document.querySelector('.ad-form__reset');
@@ -127,6 +133,7 @@ const checkValidityForm = () => {
   userCapacitySelect.addEventListener('change', checkValidityRooms);
   userDataForm.addEventListener('change', changeEventHandler);
   userType.addEventListener('change', changePlaceholderPrice);
+  userType.addEventListener('change', checkValidityPrice);
 };
 
 

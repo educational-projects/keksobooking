@@ -32,15 +32,14 @@ const addressValue = ({lat, lng}) => {
 };
 
 //* Настройка карты
-const initializationMap = () => {
+const initializationMap = async () => {
   map.on('load', () => {
     enableForm();
     addressValue(DEFAULT_ADDRESS);
   })
-    .setView({
-      lat: DEFAULT_ADDRESS.lat,
-      lng: DEFAULT_ADDRESS.lng,
-    }, MAP_SETTING.scale);
+    .setView(
+      DEFAULT_ADDRESS,
+      MAP_SETTING.scale);
 };
 
 L.tileLayer(
@@ -61,10 +60,7 @@ const mainPinIcon = L.icon(
 );
 
 const mainMarker = L.marker(
-  {
-    lat: DEFAULT_ADDRESS.lat,
-    lng: DEFAULT_ADDRESS.lng,
-  },
+  DEFAULT_ADDRESS,
   {
     draggable: true,
     icon: mainPinIcon,
