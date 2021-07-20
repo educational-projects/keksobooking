@@ -1,4 +1,4 @@
-import { defaultData } from './api.js';
+import { defaultData, sendData } from './api.js';
 import { createMarkerGroup, resetMap } from './map.js';
 
 const TITLE_LENGTH = {
@@ -136,5 +136,21 @@ const checkValidityForm = () => {
   userType.addEventListener('change', checkValidityPrice);
 };
 
+const setUserFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (checkCapacity()) {
+      const formData = new FormData(evt.target);
 
-export {checkValidityForm, changePlaceholderPrice, resetForm, checkCapacity, showCapacityError};
+      sendData(
+        onSuccess,
+        formData,
+      );
+    } else {
+      showCapacityError();
+    }
+  });
+};
+
+
+export {checkValidityForm, changePlaceholderPrice, resetForm, setUserFormSubmit};
