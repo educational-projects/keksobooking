@@ -4,17 +4,17 @@ const dataErrorTemplate = document.querySelector('#data-error').content.querySel
 
 const isEsc = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-const closePopup = (evt) => {
+const onPopupClose = (evt) => {
   const popupActive = document.querySelector('.open-popup');
   if (evt.type === 'click' || isEsc(evt)) {
     popupActive.remove();
-    document.removeEventListener('keydown', closePopup);
+    document.removeEventListener('keydown', onPopupClose);
   }
 };
 
 const addEventPopup = (popup) => {
-  popup.addEventListener('click', closePopup);
-  document.addEventListener('keydown', closePopup);
+  popup.addEventListener('click', onPopupClose);
+  document.addEventListener('keydown', onPopupClose);
 };
 
 const openPopup = (messagePopup) => {

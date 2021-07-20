@@ -31,15 +31,15 @@ const getpreviewAvatar = () => {
 const fileChooserHousing = document.querySelector('.ad-form__input');
 const previewHousing = document.querySelector('.ad-form__photo');
 const templateHousingImg = document.querySelector('#card').content.querySelector('.popup__photo');
-const HousingImg = templateHousingImg.cloneNode(true);
-HousingImg.style.height = '70px';
-HousingImg.style.width = '70px';
+const housingImg = templateHousingImg.cloneNode(true);
+housingImg.style.height = '70px';
+housingImg.style.width = '70px';
 
 const getPreviewHousing = () => {
   fileChooserHousing.addEventListener('change', () => {
     const file = fileChooserHousing.files[0];
     const fileName = file.name.toLowerCase();
-    previewHousing.appendChild(HousingImg);
+    previewHousing.appendChild(housingImg);
 
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
@@ -47,7 +47,7 @@ const getPreviewHousing = () => {
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        HousingImg.src = reader.result;
+        housingImg.src = reader.result;
       });
 
       reader.readAsDataURL(file);

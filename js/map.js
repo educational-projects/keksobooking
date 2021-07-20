@@ -27,15 +27,15 @@ const map = L.map('map-canvas');
 
 
 //* Функция показа адреса
-const addressValue = ({lat, lng}) => {
+const setAddressValue = ({lat, lng}) => {
   addressInput.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
 };
 
 //* Настройка карты
-const initializationMap = async () => {
+const initializeMap = async () => {
   map.on('load', () => {
     enableForm();
-    addressValue(DEFAULT_ADDRESS);
+    setAddressValue(DEFAULT_ADDRESS);
   })
     .setView(
       DEFAULT_ADDRESS,
@@ -68,7 +68,7 @@ const mainMarker = L.marker(
 );
 
 mainMarker.on('move', (evt) => {
-  addressValue(evt.target.getLatLng());
+  setAddressValue(evt.target.getLatLng());
 });
 
 const templateCard = document.querySelector('#card').content.querySelector('.popup');
@@ -180,4 +180,4 @@ const resetMap = () => {
 
 mainMarker.addTo(map);
 
-export {initializationMap, resetMap, createMarkerAds, markerGroup, createMarkerGroup};
+export {initializeMap, resetMap, createMarkerAds, markerGroup, createMarkerGroup};

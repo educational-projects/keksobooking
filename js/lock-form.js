@@ -1,4 +1,4 @@
-import { changePlaceholderPrice } from './form-validity.js';
+import { onHousingTypeChange } from './form-validity.js';
 
 
 const adForm = document.querySelector('.ad-form');
@@ -20,7 +20,7 @@ const disableForm = () => {
 const enableForm = () => {
   adForm.classList.remove('ad-form--disabled');
   //* Выставляем минимальную цену жилья
-  changePlaceholderPrice();
+  onHousingTypeChange();
   //* cнимаем блокировку со всех дочерних элементов формы объявления
   adFormElementsArray.forEach((element) => element.removeAttribute('disabled'));
 };

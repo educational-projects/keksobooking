@@ -26,7 +26,7 @@ const filterForm = document.querySelector('.map__filters');
 //* Валидация формы заголовка объявления
 const userTitleInput = adForm.querySelector('#title');
 
-const checkValidityTitle = () => {
+const onTitleChange = () => {
   const valueLength = userTitleInput.value.length;
 
   if (valueLength < TITLE_LENGTH.min) {
@@ -51,7 +51,7 @@ const userPriceInput = adForm.querySelector('#price');
 const userType = adForm.querySelector('#type');
 
 
-const checkValidityPrice = () => {
+const onPriceChange = () => {
   const priceValue = Number(userPriceInput.value);
   const minPrice = Number(userPriceInput.getAttribute('min'));
 
@@ -70,7 +70,7 @@ const checkValidityPrice = () => {
   userPriceInput.reportValidity();
 };
 
-const changePlaceholderPrice = () => {
+const onHousingTypeChange = () => {
   userPriceInput.placeholder = typeAndPrice[userType.value];
   userPriceInput.min = typeAndPrice[userType.value];
 };
@@ -85,7 +85,7 @@ const showCapacityError = () => {
   userCapacitySelect.reportValidity();
 };
 
-const checkValidityRooms = (evt) => {
+const onRoomsChange = (evt) => {
   if ( !checkCapacity() ) {
     showCapacityError();
     evt.preventDefault();
@@ -101,7 +101,7 @@ const userTimeInSelect = adForm.querySelector('#timein');
 const userTimeOutSelect = adForm.querySelector('#timeout');
 const userDataForm = adForm.querySelector('.ad-form__element--time');
 
-const changeEventHandler = (evt) => {
+const onFormChange = (evt) => {
   userTimeOutSelect.value = evt.target.value;
   userTimeInSelect.value = evt.target.value;
 };
@@ -113,7 +113,7 @@ const previewAvatar = adForm.querySelector('.ad-form-header__preview img');
 const resetForm = () => {
   adForm.reset();
   resetMap();
-  changePlaceholderPrice();
+  onHousingTypeChange();
   filterForm.reset();
   createMarkerGroup(defaultData);
   previewHousing.textContent = '';
@@ -127,13 +127,13 @@ resetButton.addEventListener('click', (evt) => {
 });
 
 const checkValidityForm = () => {
-  userTitleInput.addEventListener('input', checkValidityTitle);
-  userPriceInput.addEventListener('input', checkValidityPrice);
-  userRoomSelect.addEventListener('change', checkValidityRooms);
-  userCapacitySelect.addEventListener('change', checkValidityRooms);
-  userDataForm.addEventListener('change', changeEventHandler);
-  userType.addEventListener('change', changePlaceholderPrice);
-  userType.addEventListener('change', checkValidityPrice);
+  userTitleInput.addEventListener('input', onTitleChange);
+  userPriceInput.addEventListener('input', onPriceChange);
+  userRoomSelect.addEventListener('change', onRoomsChange);
+  userCapacitySelect.addEventListener('change', onRoomsChange);
+  userDataForm.addEventListener('change', onFormChange);
+  userType.addEventListener('change', onHousingTypeChange);
+  userType.addEventListener('change', onPriceChange);
 };
 
 const setUserFormSubmit = (onSuccess) => {
@@ -153,4 +153,4 @@ const setUserFormSubmit = (onSuccess) => {
 };
 
 
-export {checkValidityForm, changePlaceholderPrice, resetForm, setUserFormSubmit};
+export {checkValidityForm, onHousingTypeChange, resetForm, setUserFormSubmit};
