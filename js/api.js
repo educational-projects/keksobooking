@@ -1,13 +1,9 @@
 import { setFilterListener } from './filters-ads.js';
 import { enableFilters } from './lock-form.js';
 import { createMarkerGroup } from './map.js';
-import { openPopup } from './popup.js';
+import { dataErrorTemplate, errorTemplate, openPopup, successTemplate } from './popup.js';
 
 const SERVER_URL = 'https://23.javascript.pages.academy/keksobooking';
-
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
 
 let defaultData = [];
 const getData = () => {

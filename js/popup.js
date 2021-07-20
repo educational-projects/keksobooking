@@ -1,3 +1,7 @@
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+
 const isEsc = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const closePopup = (evt) => {
@@ -20,4 +24,4 @@ const openPopup = (messagePopup) => {
   addEventPopup(popup);
 };
 
-export {openPopup};
+export {openPopup, successTemplate, errorTemplate, dataErrorTemplate};
